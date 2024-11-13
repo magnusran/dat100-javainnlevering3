@@ -5,7 +5,7 @@ import no.hvl.dat100.oppgave1.*;
 
 public class Blogg {
 
-	private Innlegg[] innleggtabell;
+	private Innlegg innleggtabell[];
 	private int nesteledig;
 
 	public Blogg() {
@@ -37,7 +37,7 @@ public class Blogg {
 	}
 
 	public boolean finnes(Innlegg innlegg) {
-		for (int i = 0; i < getAntall(); i++) {
+		for (int i = 0; i < nesteledig; i++) {
 			if(innlegg.erLik(innleggtabell[i])) {
 				return true;
 			}
@@ -47,19 +47,22 @@ public class Blogg {
 	}
 
 	public boolean ledigPlass() {
-		return getAntall() < innleggtabell.length - 1;
+		return getAntall() < innleggtabell.length;
 	}
 	
 	public boolean leggTil(Innlegg innlegg) {
-		if(ledigPlass() && !finnes(innlegg)) {
-			leggTil(innlegg);
-			return true;
+		if(ledigPlass()) {
+			if(!finnes(innlegg)) {
+				innleggtabell[nesteledig] = innlegg;
+				nesteledig++;
+				return true;
+			}
 		}
 		return false;
 	}
 	
 	public String toString() {
-		String s = String.valueOf(getAntall());
+		String s = getAntall() + "\n";
 		for(int i = 0; i < getAntall(); i++) {
 			s += innleggtabell[i].toString();
 		}
